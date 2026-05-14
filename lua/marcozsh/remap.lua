@@ -15,12 +15,13 @@ vim.keymap.set("n", "ba", ":bprevious<CR>", { silent = true })
 vim.keymap.set("n", "bb", ":bnext<CR>", { silent = true })
 vim.keymap.set("n", "cb", ":bd<CR>", { silent = true })
 
---nerdtree
-vim.keymap.set("n", "nt", ":NERDTreeToggle<CR>")
+--nerdtree (DESACTIVADO - usando nvim-tree)
+-- vim.keymap.set("n", "nt", ":NERDTreeToggle<CR>")
+
+--nvim-tree
+vim.keymap.set("n", "nt", ":NvimTreeToggle<CR>", { silent = true })
+vim.keymap.set("n", "nf", ":NvimTreeFindFile<CR>", { silent = true })
 
 --lazygit
 vim.keymap.set("n", "lg", ":LazyGit<CR>")
-
-
-
 

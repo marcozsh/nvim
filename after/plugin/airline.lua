@@ -22,7 +22,7 @@ local function AccentDemo()
 
   local accents = {
     m = 'red', a = 'green', r = 'blue', c = 'yellow',
-    o = 'orange', z = 'purple', s = 'red', h = 'blue'
+    o = 'red', z = 'blue', s = 'red', h = 'blue'
   }
   for k, color in pairs(accents) do
     vim.fn['airline#parts#define_accent'](k, color)
