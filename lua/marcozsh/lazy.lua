@@ -18,7 +18,7 @@ require("lazy").setup({
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "mgz",
+      colorscheme = "gruvbox",
     },
   },
   
@@ -33,11 +33,81 @@ require("lazy").setup({
   -- Colorscheme mgz.nvim
   {
     'stankovictab/mgz.nvim',
+  },
 
+  -- Gruvbox colorscheme
+  {
+    'morhetz/gruvbox',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_contrast_dark = 'medium'  -- Opciones: 'soft', 'medium', 'hard'
+      vim.g.gruvbox_contrast_light = 'medium'
+      vim.cmd('colorscheme gruvbox')
+      vim.o.background = 'dark'
+    end,
+  },
+
+  -- Bufferline (barra superior de tabs/buffers)
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    lazy = false,
+    config = function()
+      require("bufferline").setup({
+        options = {
+          mode = "buffers",  -- Mostrar buffers en lugar de tabs
+          numbers = "none",
+          close_command = "bdelete! %d",
+          right_mouse_command = "bdelete! %d",
+          left_mouse_command = "buffer %d",
+          middle_mouse_command = nil,
+          indicator = {
+            icon = '▎',
+            style = 'icon',
+          },
+          buffer_close_icon = '󰅖',
+          modified_icon = '●',
+          close_icon = '',
+          left_trunc_marker = '',
+          right_trunc_marker = '',
+          max_name_length = 18,
+          max_prefix_length = 15,
+          truncate_names = true,
+          tab_size = 18,
+          diagnostics = "nvim_lsp",
+          diagnostics_update_in_insert = false,
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "File Explorer",
+              text_align = "center",
+              separator = true,
+            }
+          },
+          color_icons = true,
+          show_buffer_icons = true,
+          show_buffer_close_icons = true,
+          show_close_icon = true,
+          show_tab_indicators = true,
+          show_duplicate_prefix = true,
+          persist_buffer_sort = true,
+          separator_style = "thin",  -- "slant", "thick", "thin", { 'any', 'any' }
+          enforce_regular_tabs = false,
+          always_show_bufferline = true,
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = {'close'}
+          },
+          sort_by = 'insert_after_current',
+        },
+      })
+    end,
   },
 
   
-
   -- Telescope (lazy load on command)
   {
     'nvim-telescope/telescope.nvim',
@@ -56,7 +126,6 @@ require("lazy").setup({
       { 'fg', '<cmd>Telescope live_grep<cr>', desc = 'Telescope live grep' },
     },
   },
-
   -- Treesitter (NOTE: new nvim-treesitter rewrite does not support lazy-loading)
   {
     'nvim-treesitter/nvim-treesitter',
@@ -77,6 +146,7 @@ require("lazy").setup({
           'typescriptreact',
           'javascriptreact',
           'python',
+          'go',
           'html',
           'css',
         },
@@ -149,8 +219,9 @@ require("lazy").setup({
           'angular-language-server',
           'typescript-language-server',
           'tailwindcss-language-server',
-          'gleam',
           'ocaml-lsp',
+          'gopls',
+          'golangci-lint',
         },
         auto_update = false,
         run_on_start = true,
@@ -173,6 +244,7 @@ require("lazy").setup({
         'tailwindcss',
         'gleam',
         'ocamllsp',
+        'gopls',
       })
 
       -- LSP keymaps
@@ -196,16 +268,24 @@ require("lazy").setup({
       -- CMP setup
       local cmp = require('cmp')
       cmp.setup({
-        sources = {
+        sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-        },
+          { name = 'luasnip' },
+        }, {
+          { name = 'buffer' },
+          { name = 'path' },
+        }),
         snippet = {
           expand = function(args)
-            vim.snippet.expand(args.body)
+            require('luasnip').lsp_expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
-          ['<CR>'] = cmp.mapping.confirm({ select = true })
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
         }),
         formatting = {
           format = function(entry, vim_item)
@@ -217,6 +297,24 @@ require("lazy").setup({
             return vim_item
           end
         },
+      })
+    end,
+  },
+
+  -- Lint (para Go, Rust, etc.)
+  {
+    'mfussenegger/nvim-lint',
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      local lint = require('lint')
+      lint.linters_by_ft = {
+        go = { 'golangcilint' },
+      }
+
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        callback = function()
+          lint.try_lint()
+        end,
       })
     end,
   },

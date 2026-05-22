@@ -1,4 +1,4 @@
-# Neovim Configuration Setup for Windows
+# Neovim Configuration Setup for Linux
 
 Una configuración completa de Neovim con soporte para LSP, Treesitter, GitHub Copilot, y más.
 
@@ -7,64 +7,54 @@ Una configuración completa de Neovim con soporte para LSP, Treesitter, GitHub C
 > [!IMPORTANT]
 > - **Node.js** (requerido para LSP servers y herramientas)
 > - **Git** (para clonar el repositorio y gestionar plugins)
-> - **PowerShell** (incluido en Windows)
-> - **Windows 10/11**
+> - **GCC/Build Essentials** (requerido para compilar plugins nativos y Treesitter)
 > - **Go** (requerido para desarrollo en Go y golangci-lint)
 
 ## Instalación Paso a Paso
 
-### 1. Instalar Scoop (Gestor de Paquetes)
+### 1. Instalar Dependencias del Sistema
 
-Abre PowerShell como administrador y ejecuta:
-
-```PowerShell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+#### Ubuntu/Debian
+```bash
+sudo apt update
+sudo apt install -y neovim git gcc make ripgrep curl
 ```
 
-### 2. Instalar Neovim
-
-```PowerShell
-scoop install main/neovim
+#### Fedora/RHEL
+```bash
+sudo dnf install -y neovim git gcc make ripgrep curl
 ```
 
-Verifica la instalación:
-```PowerShell
+#### Arch Linux
+```bash
+sudo pacman -S neovim git gcc make ripgrep curl
+```
+
+Verifica la instalación de Neovim:
+```bash
 nvim --version
 ```
 
-### 3. Instalar Herramientas Esenciales
+### 2. Instalar Node.js y Herramientas Globales
 
-#### Git (si no lo tienes instalado)
-```PowerShell
-scoop install git
+#### Usando NodeSource (Ubuntu/Debian)
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 
-#### GCC (Requerido para nvim-treesitter)
-```PowerShell
-scoop install gcc
+#### Usando DNF (Fedora)
+```bash
+sudo dnf install -y nodejs
 ```
 
-#### Ripgrep (Para búsqueda con Telescope)
-```PowerShell
-scoop install ripgrep
-```
-
-#### LazyGit (Para gestión de Git en Neovim)
-```PowerShell
-scoop bucket add extras
-scoop install lazygit
-```
-
-### 4. Instalar Node.js y Herramientas Globales
-
-Si no tienes Node.js instalado:
-```PowerShell
-scoop install nodejs
+#### Usando Pacman (Arch)
+```bash
+sudo pacman -S nodejs npm
 ```
 
 Instala las herramientas necesarias globalmente:
-```PowerShell
+```bash
 npm install -g prettier
 npm install -g live-server
 ```
@@ -72,51 +62,55 @@ npm install -g live-server
 > [!NOTE]
 > Los LSP servers (pyright, typescript-language-server, tailwindcss-language-server, etc.) se instalarán automáticamente mediante **Mason** al abrir Neovim por primera vez.
 
-### 4.1. Configurar Go (Opcional)
+### 2.1. Configurar Go (Opcional)
 
 Si vas a desarrollar en Go, necesitas instalar Go y el linter:
 
 #### Instalar Go
-```PowerShell
-scoop install go
+```bash
+# Ubuntu/Debian/Fedora
+sudo apt install -y golang-go  # o sudo dnf install -y golang
+
+# Arch Linux
+sudo pacman -S go
 ```
 
 Verifica la instalación:
-```PowerShell
+```bash
 go version
 ```
 
 #### Instalar golangci-lint (Linter para Go)
-```PowerShell
+```bash
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 ```
 
 > [!IMPORTANT]
-> Asegúrate de que `$env:GOPATH\bin` o `$env:USERPROFILE\go\bin` esté en tu PATH. Si no es así, agrégalo:
-> ```PowerShell
-> $env:PATH += ";$env:USERPROFILE\go\bin"
+> Asegúrate de que `$HOME/go/bin` esté en tu PATH. Si no es así, agrégalo a tu `~/.bashrc` o `~/.zshrc`:
+> ```bash
+> export PATH="$HOME/go/bin:$PATH"
 > ```
 
-### 5. Clonar la Configuración
+### 3. Clonar la Configuración
 
 Navega al directorio de configuración de Neovim y clona el repositorio:
 
-```PowerShell
+```bash
 # Crear el directorio si no existe
-New-Item -ItemType Directory -Force -Path "$env:LOCALAPPDATA\nvim"
+mkdir -p ~/.config/nvim
 
 # Navegar al directorio
-Set-Location "$env:LOCALAPPDATA\nvim"
+cd ~/.config/nvim
 
 # Clonar el repositorio (reemplaza con tu URL de repo)
 git clone https://github.com/marcozsh/init.vim.git .
 ```
 
-### 6. Primera Ejecución de Neovim
+### 4. Primera Ejecución de Neovim
 
 Abre Neovim para que se instalen automáticamente los plugins:
 
-```PowerShell
+```bash
 nvim
 ```
 
@@ -125,7 +119,7 @@ nvim
 > [!TIP]
 > Si ves errores durante la primera ejecución, es normal. Espera a que todos los plugins se descarguen y cierra Neovim con `:q`, luego ábrelo nuevamente.
 
-### 7. Instalar Parsers de Treesitter
+### 5. Instalar Parsers de Treesitter
 
 Una vez que Neovim esté abierto y los plugins instalados, instala los parsers de Treesitter para los lenguajes que uses:
 
@@ -138,7 +132,7 @@ O para instalar un lenguaje específico:
 :TSInstall <lenguaje>
 ```
 
-### 8. Verificar Instalación de LSP Servers
+### 6. Verificar Instalación de LSP Servers
 
 Los LSP servers se instalan automáticamente mediante **mason-tool-installer**. Para verificar:
 
@@ -221,19 +215,34 @@ nvim/
 
 ### Live Grep no funciona
 Asegúrate de tener ripgrep instalado:
-```PowerShell
-scoop install ripgrep
+```bash
+# Ubuntu/Debian
+sudo apt install ripgrep
+
+# Fedora
+sudo dnf install ripgrep
+
+# Arch
+sudo pacman -S ripgrep
 ```
 
 ### Treesitter no compila
-Verifica que GCC esté instalado:
-```PowerShell
+Verifica que GCC y Make estén instalados:
+```bash
 gcc --version
+make --version
 ```
 
-Si no está instalado:
-```PowerShell
-scoop install gcc
+Si no están instalados:
+```bash
+# Ubuntu/Debian
+sudo apt install -y build-essential
+
+# Fedora
+sudo dnf groupinstall "Development Tools"
+
+# Arch
+sudo pacman -S base-devel
 ```
 
 ### LSP no funciona
@@ -242,21 +251,21 @@ scoop install gcc
 3. Para reinstalar: selecciona el servidor y presiona `X` para desinstalar, luego `i` para instalar
 
 ### golangci-lint no funciona
-Si ves el error "Linter command 'cmd.exe' exited with code: 1" al guardar archivos `.go`:
+Si ves el error "Linter command exited with code: 1" al guardar archivos `.go`:
 
 1. Verifica que golangci-lint esté instalado:
-```PowerShell
+```bash
 golangci-lint --version
 ```
 
 2. Si no está instalado:
-```PowerShell
+```bash
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 ```
 
 3. Asegúrate de que el directorio de Go bin esté en tu PATH:
-```PowerShell
-$env:PATH += ";$env:USERPROFILE\go\bin"
+```bash
+export PATH="$HOME/go/bin:$PATH"
 ```
 
 ### Plugins no se cargan
@@ -273,8 +282,8 @@ Para actualizar los plugins:
 ```
 
 Para actualizar la configuración:
-```PowerShell
-cd $env:LOCALAPPDATA\nvim
+```bash
+cd ~/.config/nvim
 git pull
 ```
 

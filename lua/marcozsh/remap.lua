@@ -10,7 +10,11 @@ vim.keymap.set("n", "<Leader>py", function()
 end, { silent = true })
 
 
---navigation
+--navigation (bufferline)
+vim.keymap.set("n", "na", ":BufferLineCycleNext<CR>", { silent = true })  -- Siguiente buffer
+vim.keymap.set("n", "nc", ":bdelete<CR>", { silent = true })  -- Cerrar buffer actual
+
+-- Atajos antiguos (por compatibilidad)
 vim.keymap.set("n", "ba", ":bprevious<CR>", { silent = true })
 vim.keymap.set("n", "bb", ":bnext<CR>", { silent = true })
 vim.keymap.set("n", "cb", ":bd<CR>", { silent = true })
