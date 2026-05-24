@@ -41,8 +41,8 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g.gruvbox_contrast_dark = 'medium'  -- Opciones: 'soft', 'medium', 'hard'
-      vim.g.gruvbox_contrast_light = 'medium'
+      vim.g.gruvbox_contrast_dark = 'hard'  -- Opciones: 'soft', 'medium', 'hard'
+      vim.g.gruvbox_contrast_light = 'hard'
       vim.cmd('colorscheme gruvbox')
       vim.o.background = 'dark'
     end,
@@ -219,7 +219,6 @@ require("lazy").setup({
           'angular-language-server',
           'typescript-language-server',
           'tailwindcss-language-server',
-          'ocaml-lsp',
           'gopls',
           'golangci-lint',
         },
@@ -243,7 +242,6 @@ require("lazy").setup({
         'ts_ls',
         'tailwindcss',
         'gleam',
-        'ocamllsp',
         'gopls',
       })
 
@@ -264,7 +262,6 @@ require("lazy").setup({
           vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
         end,
       })
-
       -- CMP setup
       local cmp = require('cmp')
       cmp.setup({
@@ -331,53 +328,6 @@ require("lazy").setup({
   -- UI plugins (load immediately for statusline)
   { 'vim-airline/vim-airline' },
   { 'vim-airline/vim-airline-themes' },
-
-  -- NERDTree (lazy load on command) - DESACTIVADO: Reemplazado por nvim-tree
-  -- {
-  --   'preservim/nerdtree',
-  --   cmd = { "NERDTree", "NERDTreeToggle", "NERDTreeFind" },
-  --   init = function()
-  --     -- NERDTree configuration (set before plugin loads)
-  --     vim.g.NERDTreeWinSize = 100
-  --     vim.g.NERDTreeDirArrowExpandable = '▸'
-  --     vim.g.NERDTreeDirArrowCollapsible = '▾'
-  --     vim.g.NERDTreeDirArrows = 1
-  --     vim.g.NERDTreeShowLineNumbers = 1
-  --     vim.g.NERDTreeQuitOnOpen = 1
-  --     vim.g.NERDTreeWinPos = "right"
-  --     vim.g.NERDTreeHighlightFoldersFullName = 1
-  --     vim.g.WebDevIconsUnicodeDecorateFolderNodes = 1
-  --     vim.g.DevIconsEnableFoldersOpenClose = 1
-  --     vim.g.DevIconsEnableFolderExtensionPatternMatching = 1
-  --     vim.g.webdevicons_conceal_nerdtree_brackets = 1
-  --     -- Show folders with parentheses (for Next.js route groups)
-  --     vim.g.NERDTreeRespectWildIgnore = 0
-  --     vim.g.NERDTreeShowHidden = 1
-  --     vim.g.NERDTreeIgnore = {}
-  --     -- Ensure wildignore doesn't affect NERDTree
-  --     vim.opt.wildignore = ""
-  --
-  --     -- Auto-open NERDTree if no files
-  --     vim.api.nvim_create_autocmd("StdinReadPre", {
-  --       pattern = "*",
-  --       callback = function() vim.g.std_in = 1 end
-  --     })
-  --     vim.api.nvim_create_autocmd("VimEnter", {
-  --       pattern = "*",
-  --       callback = function()
-  --         if vim.fn.argc() == 0 and not vim.g.std_in then
-  --           vim.cmd("NERDTree")
-  --         end
-  --       end
-  --     })
-  --   end,
-  --   config = function()
-  --     -- Additional configuration after plugin loads
-  --     vim.g.NERDTreeRespectWildIgnore = 0
-  --     vim.g.NERDTreeShowHidden = 1
-  --     vim.g.NERDTreeIgnore = {}
-  --   end,
-  -- },
 
   -- nvim-tree.lua (alternativa moderna a NERDTree)
   {
@@ -467,12 +417,11 @@ require("lazy").setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
 
-  -- Copilot (lazy load on insert)
+ -- Copilot (lazy load on insert)
   {
     'github/copilot.vim',
     event = "InsertEnter",
   },
-
   -- CopilotChat (lazy load on command)
   {
     'CopilotC-Nvim/CopilotChat.nvim',
@@ -485,7 +434,6 @@ require("lazy").setup({
       require("CopilotChat").setup {}
     end,
   },
-
   -- Indent blankline (lazy load on buffer)
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -500,7 +448,7 @@ require("lazy").setup({
         "RainbowGreen",
         "RainbowViolet",
         "RainbowCyan",
-      }
+	}
 
       local hooks = require("ibl.hooks")
       hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
@@ -561,7 +509,7 @@ require("lazy").setup({
     opts = {},
   },
 
-  -- CSS color (lazy load on css files)
+  -- CSS color (lazy load on css files
   {
     'ap/vim-css-color',
     ft = { "css", "scss", "sass", "less", "html" },

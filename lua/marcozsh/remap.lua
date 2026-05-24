@@ -27,5 +27,5 @@ vim.keymap.set("n", "nt", ":NvimTreeToggle<CR>", { silent = true })
 vim.keymap.set("n", "nf", ":NvimTreeFindFile<CR>", { silent = true })
 
 --lazygit
-vim.keymap.set("n", "lg", ":LazyGit<CR>")
+vim.keymap.set("n", "gg", ":LazyGit<CR>")
 
