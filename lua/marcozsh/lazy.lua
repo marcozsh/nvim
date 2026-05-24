@@ -18,7 +18,7 @@ require("lazy").setup({
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "rose-pine",
     },
   },
   
@@ -30,22 +30,12 @@ require("lazy").setup({
     opts = {},
   },
 
-  -- Colorscheme mgz.nvim
   {
-    'stankovictab/mgz.nvim',
-  },
-
-  -- Gruvbox colorscheme
-  {
-    'morhetz/gruvbox',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.g.gruvbox_contrast_dark = 'hard'  -- Opciones: 'soft', 'medium', 'hard'
-      vim.g.gruvbox_contrast_light = 'hard'
-      vim.cmd('colorscheme gruvbox')
-      vim.o.background = 'dark'
-    end,
+     'rose-pine/neovim',
+     name = 'rose-pine',
+     config = function()
+	vim.cmd("colorscheme rose-pine-moon")
+     end,
   },
 
   -- Bufferline (barra superior de tabs/buffers)
@@ -583,6 +573,22 @@ require("lazy").setup({
       { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
     },
     opts = {},
+  },
+
+  --Terminal toggleterm
+  {
+    'akinsho/toggleterm.nvim', 
+    version='*',
+    opts={
+       shell='pwsh.exe',
+       size = 20,
+       open_mapping = false,
+       direction = 'float',
+       float_opts={
+	  	border='curved',
+     	},
+    },
+
   },
 
 }, {
