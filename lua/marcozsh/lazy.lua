@@ -18,7 +18,7 @@ require("lazy").setup({
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine",
+      colorscheme = "gruvbox-material",
     },
   },
   
@@ -33,9 +33,65 @@ require("lazy").setup({
   {
      'rose-pine/neovim',
      name = 'rose-pine',
-     config = function()
-	vim.cmd("colorscheme rose-pine-moon")
-     end,
+     --config = function()
+	--vim.cmd("colorscheme rose-pine-moon")
+     --end,
+  },
+
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    lazy = true,
+    opts = {
+      flavour = 'mocha',
+    },
+  },
+
+  {
+    'folke/tokyonight.nvim',
+    lazy = true,
+    opts = {
+      style = 'night',
+    },
+  },
+
+  {
+    'sainnhe/gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_material_background = 'hard'
+      vim.g.gruvbox_material_enable_italic = true
+      vim.cmd("colorscheme gruvbox-material")
+    end,
+  },
+
+  {
+    'rebelot/kanagawa.nvim',
+    lazy = true,
+    opts = {
+      theme = 'wave',
+    },
+  },
+
+  {
+    'gbprod/nord.nvim',
+    lazy = true,
+    opts = {},
+  },
+
+  {
+    'navarasu/onedark.nvim',
+    lazy = true,
+    opts = {
+      style = 'darker',
+    },
+  },
+
+  {
+    'Mofiqul/dracula.nvim',
+    lazy = true,
+    opts = {},
   },
 
   -- Bufferline (barra superior de tabs/buffers)
@@ -333,8 +389,8 @@ require("lazy").setup({
         
         -- Configuración de vista
         view = {
-          width = 100,
-          side = "right",
+          width = 50,
+          side = "left",
           number = true,
           relativenumber = true,
         },
@@ -580,7 +636,7 @@ require("lazy").setup({
     'akinsho/toggleterm.nvim', 
     version='*',
     opts={
-       shell='pwsh.exe',
+       shell='wsl.exe -d Ubuntu',
        size = 20,
        open_mapping = false,
        direction = 'float',

@@ -9,6 +9,14 @@ vim.keymap.set("n", "<Leader>py", function()
   vim.cmd("normal! zz")
 end, { silent = true })
 
+--goimports
+vim.keymap.set("n", "<Leader>pg", function()
+  local save_pos = vim.fn.getpos(".")
+  vim.cmd("silent %!goimports")
+  vim.fn.setpos(".", save_pos)
+  vim.cmd("normal! zz")
+end, { silent = true })
+
 
 --navigation (bufferline)
 vim.keymap.set("n", "na", ":BufferLineCycleNext<CR>", { silent = true })  -- Siguiente buffer

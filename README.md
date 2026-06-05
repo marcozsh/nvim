@@ -86,6 +86,11 @@ Verifica la instalación:
 go version
 ```
 
+#### Instalar goimports (Formateador para Go)
+```PowerShell
+go install golang.org/x/tools/cmd/goimports@latest
+```
+
 #### Instalar golangci-lint (Linter para Go)
 ```PowerShell
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -209,6 +214,10 @@ nvim/
 - `<F2>` - Renombrar símbolo
 - `<F3>` - Formatear código
 - `<F4>` - Acciones de código
+
+### Formateo Manual
+- `<leader>py` - Formatear con Prettier (JS, TS, HTML, CSS, etc.)
+- `<leader>pg` - Formatear con goimports (Go)
 
 ### Git (LazyGit)
 - `:LazyGit` - Abrir LazyGit
