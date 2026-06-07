@@ -113,11 +113,11 @@ require("lazy").setup({
             icon = '▎',
             style = 'icon',
           },
-          buffer_close_icon = '󰅖',
+          buffer_close_icon = 'x',
           modified_icon = '●',
-          close_icon = '',
-          left_trunc_marker = '',
-          right_trunc_marker = '',
+          close_icon = 'x',
+          left_trunc_marker = '',
+          right_trunc_marker = '',
           max_name_length = 18,
           max_prefix_length = 15,
           truncate_names = true,
@@ -633,10 +633,11 @@ require("lazy").setup({
 
   --Terminal toggleterm
   {
-    'akinsho/toggleterm.nvim', 
+    'akinsho/toggleterm.nvim',
     version='*',
     opts={
-       shell='wsl.exe -d Ubuntu',
+       --shell='wsl.exe -d Ubuntu',
+       shell='pwsh.exe',
        size = 20,
        open_mapping = false,
        direction = 'float',
